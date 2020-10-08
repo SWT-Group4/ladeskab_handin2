@@ -9,8 +9,6 @@
     <PackageReference Include="NUnit3TestAdapter" Version="3.17.0" />
     <PackageReference Include="NunitXml.TestLogger" Version="2.1.62" />
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Ladeskab.Test.Unit\Ladeskab.Test.Unit.csproj" />
-  </ItemGroup>
+
 
 </Project>
