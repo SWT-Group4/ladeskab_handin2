@@ -1,8 +1,17 @@
+/*
+ *  File: ChargeControl_Test.cs
+ *  Authors: I4SWT, Team 2020-4
+ *  Created: 08-10-2020
+ *
+ *  Description: Unit Tests for Ladeskab.ChargeControl.cs
+ */
+
+
 using NUnit.Framework;
 
 namespace Ladeskab.Test.Unit
 {
-    public class StationControlUnitTest
+    public class ChargeControlUnitTest
     {
         // Pre-Setup:
         //private ThisIsATestClass _uut;
