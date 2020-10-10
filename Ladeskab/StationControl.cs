@@ -21,14 +21,28 @@ namespace Ladeskab
         // Her mangler flere member variable
         private LadeskabState _state;
         private IUsbCharger _charger;
+        private IDoor _door;
+        private IRfidReader _rfidReader;
         private int _oldId;
 
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
-        // Her mangler constructor
+        // Constructor
+        public StationControl(IUsbCharger usbCharger, IDoor door, IRfidReader rfidReader)
+        {
+            // Constructor injection
+            _charger = usbCharger;
+            _door = door;
+            _rfidReader = rfidReader;
+
+            // Assigning subscribers to events
+            _rfidReader.RfidEvent += RfidDetected;
+            _door.DoorEvent += DoorEventHandler;
+
+        }
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
-        private void RfidDetected(int id)
+        private void RfidDetected(object sender, RfidEventArgs e)
         {
             switch (_state)
             {
@@ -38,11 +52,8 @@ namespace Ladeskab
                     {
                         //_door.LockDoor();
                         _charger.StartCharge();
-                        _oldId = id;
-                        using (var writer = File.AppendText(logFile))
-                        {
-                            writer.WriteLine(DateTime.Now + ": Skab låst med RFID: {0}", id);
-                        }
+                        _oldId = e.id;
+                        LogDoorLocked(e.id);
 
                         Console.WriteLine("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
                         _state = LadeskabState.Locked;
@@ -60,14 +71,11 @@ namespace Ladeskab
 
                 case LadeskabState.Locked:
                     // Check for correct ID
-                    if (id == _oldId)
+                    if (e.id == _oldId)
                     {
                         _charger.StopCharge();
                         //_door.UnlockDoor();
-                        using (var writer = File.AppendText(logFile))
-                        {
-                            writer.WriteLine(DateTime.Now + ": Skab låst op med RFID: {0}", id);
-                        }
+                        LogDoorUnlocked(e.id);
 
                         Console.WriteLine("Tag din telefon ud af skabet og luk døren");
                         _state = LadeskabState.Available;
@@ -81,6 +89,51 @@ namespace Ladeskab
             }
         }
 
-        // Her mangler de andre trigger handlere
+        private void DoorEventHandler(object sender, DoorEventArgs e)
+        {
+            switch (_state)
+            {
+                case LadeskabState.Available:
+                    // Only if the door opens
+                    if (e.DoorState == true)
+                    {
+                        _state = LadeskabState.DoorOpen;
+                        Console.WriteLine("Tilslut telefon");
+                    }
+                    break;
+
+                case LadeskabState.DoorOpen:
+                    // Only if the door is closed
+                    if (e.DoorState == false)
+                    {
+                        _state = LadeskabState.Available;
+                        Console.WriteLine("Indlæs RFID");
+                    }
+                    break;
+
+                case LadeskabState.Locked:
+                    // Breakin! Should not be possible
+                    break;
+            }
+        }
+
+        // These functions interface with the real world (log-file, system calls, displays etc), so the most correct
+        // thing might be to put them in classes of their own.
+        private void LogDoorLocked(int ID)
+        {
+            using (var writer = File.AppendText(logFile))
+            {
+                writer.WriteLine(DateTime.Now + ": Skab låst med RFID: {0}", ID);
+            }
+        }
+        
+
+        private void LogDoorUnlocked(int ID)
+        {
+            using (var writer = File.AppendText(logFile))
+            {
+                writer.WriteLine(DateTime.Now + ": Skab låst op med RFID: {0}", ID);
+            }
+        }
     }
 }
