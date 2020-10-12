@@ -37,7 +37,8 @@ namespace Ladeskab
                     string idString = System.Console.ReadLine();
 
                     int id = Convert.ToInt32(idString);
-                    rfidReader.OnRfidRead(id);
+                    // Kristoffer implementerer RF ID Reader:
+                    // rfidReader.OnRfidRead(id);
                     break;
 
                 default:
