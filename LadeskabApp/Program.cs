@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace LadeskabApp
+namespace Ladeskab
 {
 
     class Program
@@ -8,7 +8,8 @@ namespace LadeskabApp
         static void Main(string[] args)
         {
             // Assemble your system here from all the classes
-       
+            Door door;
+            door = new Door();
         bool finish = false;
         do
         {
@@ -24,11 +25,11 @@ namespace LadeskabApp
                     break;
 
                 case 'O':
-                    door.OnDoorOpen();
+                    door.DoorOpened();
                     break;
 
                 case 'C':
-                    door.OnDoorClose();
+                    door.DoorClosed();
                     break;
 
                 case 'R':
