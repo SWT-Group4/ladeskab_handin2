@@ -52,8 +52,8 @@ namespace Ladeskab
                     {
                         _door.LockDoor();
                         _charger.StartCharge();
-                        _oldId = e.id;
-                        LogDoorLocked(e.id);
+                        _oldId = e.Id;
+                        LogDoorLocked(e.Id);
 
                         Console.WriteLine("Skabet er låst og din telefon lades. Brug dit RFID tag til at låse op.");
                         _state = LadeskabState.Locked;
@@ -71,11 +71,11 @@ namespace Ladeskab
 
                 case LadeskabState.Locked:
                     // Check for correct ID
-                    if (e.id == _oldId)
+                    if (e.Id == _oldId)
                     {
                         _charger.StopCharge();
                         _door.UnlockDoor();
-                        LogDoorUnlocked(e.id);
+                        LogDoorUnlocked(e.Id);
 
                         Console.WriteLine("Tag din telefon ud af skabet og luk døren");
                         _state = LadeskabState.Available;
