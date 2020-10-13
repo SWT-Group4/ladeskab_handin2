@@ -6,22 +6,38 @@
  *  Description: Unit Tests for Ladeskab.StationControl.cs
  */
 
+using NSubstitute;
 using NUnit.Framework;
+using UsbSimulator;
 
 namespace Ladeskab.Test.Unit
 {
+    [TestFixture]
     public class StationControlUnitTest
     {
         // Pre-Setup:
-        //private ThisIsATestClass _uut;
+        private StationControl _uut;
+        private IDoor _fakeDoor;
+        private IRfidReader _fakeRfidReader;
+        private IUsbCharger _fakeUsbCharger;
 
         [SetUp]
         public void Setup()
         {
             // Common Arrange:
-            // _uut = new ThisIsATestClass();
-            
+            _fakeDoor = Substitute.For<IDoor>();
+            _fakeRfidReader = Substitute.For<IRfidReader>();
+            _fakeUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new StationControl(_fakeUsbCharger, _fakeDoor, _fakeRfidReader);
+
         }
+
+        /*[Test]
+        public void EventHandling_DoorOpenedLadeskabAvailable_stateChanges()
+        {
+            // Raise event in fake
+            _fakeDoor.
+        }*/
 
         [Test]
         public void ThisWillReturnTrue_NoAction_IsTrue()

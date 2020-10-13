@@ -50,7 +50,7 @@ namespace Ladeskab
                     // Check for ladeforbindelse
                     if (_charger.Connected)
                     {
-                        //_door.LockDoor();
+                        _door.LockDoor();
                         _charger.StartCharge();
                         _oldId = e.id;
                         LogDoorLocked(e.id);
@@ -74,7 +74,7 @@ namespace Ladeskab
                     if (e.id == _oldId)
                     {
                         _charger.StopCharge();
-                        //_door.UnlockDoor();
+                        _door.UnlockDoor();
                         LogDoorUnlocked(e.id);
 
                         Console.WriteLine("Tag din telefon ud af skabet og luk døren");
