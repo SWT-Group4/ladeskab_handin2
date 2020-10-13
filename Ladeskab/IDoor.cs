@@ -17,5 +17,9 @@ namespace Ladeskab
         void LockDoor();
         // Unlock the door
         void UnlockDoor();
+
+        void DoorOpened();
+
+        void DoorClosed();
     }
 }
