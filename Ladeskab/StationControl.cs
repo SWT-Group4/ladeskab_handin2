@@ -20,7 +20,7 @@ namespace Ladeskab
 
         // Her mangler flere member variable
         private LadeskabState _state;
-        private IUsbCharger _charger;
+        private IChargeControl _charger;
         private IDoor _door;
         private IRfidReader _rfidReader;
         private int _oldId;
@@ -28,17 +28,16 @@ namespace Ladeskab
         private string logFile = "logfile.txt"; // Navnet på systemets log-fil
 
         // Constructor
-        public StationControl(IUsbCharger usbCharger, IDoor door, IRfidReader rfidReader)
+        public StationControl(IChargeControl Charger, IDoor door, IRfidReader rfidReader)
         {
             // Constructor injection
-            _charger = usbCharger;
+            _charger = Charger;
             _door = door;
             _rfidReader = rfidReader;
 
             // Assigning subscribers to events
             _rfidReader.RfidEvent += RfidDetected;
             _door.DoorEvent += DoorEventHandler;
-
         }
 
         // Eksempel på event handler for eventet "RFID Detected" fra tilstandsdiagrammet for klassen
@@ -48,6 +47,7 @@ namespace Ladeskab
             {
                 case LadeskabState.Available:
                     // Check for ladeforbindelse
+                    /*
                     if (_charger.Connected)
                     {
                         _door.LockDoor();
@@ -61,7 +61,7 @@ namespace Ladeskab
                     else
                     {
                         Console.WriteLine("Din telefon er ikke ordentlig tilsluttet. Prøv igen.");
-                    }
+                    }*/
 
                     break;
 
@@ -71,6 +71,7 @@ namespace Ladeskab
 
                 case LadeskabState.Locked:
                     // Check for correct ID
+                    /*
                     if (e.Id == _oldId)
                     {
                         _charger.StopCharge();
@@ -84,7 +85,7 @@ namespace Ladeskab
                     {
                         Console.WriteLine("Forkert RFID tag");
                     }
-
+                    */
                     break;
             }
         }

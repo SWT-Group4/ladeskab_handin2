@@ -1,4 +1,5 @@
 ﻿using System;
+using UsbSimulator;
 
 namespace Ladeskab
 {
@@ -8,8 +9,11 @@ namespace Ladeskab
         static void Main(string[] args)
         {
             // Assemble your system here from all the classes
-            Door door;
-            door = new Door();
+            Door _door = new Door();
+            RfidReaderSimulator _rfid = new RfidReaderSimulator();
+            //UsbChargerSimulator _usbCharger = new UsbChargerSimulator();
+            //ChargeControl _chargeControl = new ChargeControl(_usbCharger);
+            //StationControl _stationControl = new StationControl(_chargeControl, _door, _rfid)
         bool finish = false;
         do
         {
@@ -25,11 +29,11 @@ namespace Ladeskab
                     break;
 
                 case 'O':
-                    door.DoorOpened();
+                    _door.DoorOpened();
                     break;
 
                 case 'C':
-                    door.DoorClosed();
+                    _door.DoorClosed();
                     break;
 
                 case 'R':
@@ -37,8 +41,7 @@ namespace Ladeskab
                     string idString = System.Console.ReadLine();
 
                     int id = Convert.ToInt32(idString);
-                    // Kristoffer implementerer RF ID Reader:
-                    // rfidReader.OnRfidRead(id);
+                    _rfid.ScanRfidTag(id);
                     break;
 
                 default:

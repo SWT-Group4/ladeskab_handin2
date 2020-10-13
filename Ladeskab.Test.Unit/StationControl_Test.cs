@@ -19,7 +19,7 @@ namespace Ladeskab.Test.Unit
         private StationControl _uut;
         private IDoor _fakeDoor;
         private IRfidReader _fakeRfidReader;
-        private IUsbCharger _fakeUsbCharger;
+        private IChargeControl _fakeChargeControl;
 
         [SetUp]
         public void Setup()
@@ -27,8 +27,8 @@ namespace Ladeskab.Test.Unit
             // Common Arrange:
             _fakeDoor = Substitute.For<IDoor>();
             _fakeRfidReader = Substitute.For<IRfidReader>();
-            _fakeUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new StationControl(_fakeUsbCharger, _fakeDoor, _fakeRfidReader);
+            _fakeChargeControl = Substitute.For<IChargeControl>();
+            _uut = new StationControl(_fakeChargeControl, _fakeDoor, _fakeRfidReader);
 
         }
 

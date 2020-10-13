@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Ladeskab
 {
-    class RfidReaderSimulator : IRfidReader
+    public class RfidReaderSimulator : IRfidReader
     {
         public event EventHandler<RfidEventArgs> RfidEvent;
 
