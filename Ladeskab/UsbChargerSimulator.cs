@@ -12,7 +12,7 @@ namespace UsbSimulator
         private const int ChargeTimeMinutes = 20; // minutes
         private const int CurrentTickInterval = 250; // ms
 
-        public event EventHandler<CurrentEventArgs> CurrentValueEvent;
+        public event EventHandler<CurrentEventArgs> ChargingCurrentEvent;
 
         public double CurrentValue { get; private set; }
 
@@ -109,7 +109,7 @@ namespace UsbSimulator
 
         private void OnNewCurrent()
         {
-            CurrentValueEvent?.Invoke(this, new CurrentEventArgs() {Current = this.CurrentValue});
+            ChargingCurrentEvent?.Invoke(this, new CurrentEventArgs() {Current = this.CurrentValue});
         }
     }
 }

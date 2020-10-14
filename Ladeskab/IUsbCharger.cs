@@ -11,7 +11,7 @@ namespace UsbSimulator
     public interface IUsbCharger
     {
         // Event triggered on new current value
-        event EventHandler<CurrentEventArgs> CurrentValueEvent;
+        event EventHandler<CurrentEventArgs> ChargingCurrentEvent;
 
         // Direct access to the current current value
         double CurrentValue { get; }
