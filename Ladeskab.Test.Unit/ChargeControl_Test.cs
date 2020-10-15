@@ -7,33 +7,55 @@
  */
 
 
+using System.Runtime.InteropServices.ComTypes;
+using NSubstitute;
+using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
+using UsbSimulator;
 
 namespace Ladeskab.Test.Unit
 {
+    [TestFixture]
     public class ChargeControlUnitTest
     {
         // Pre-Setup:
-        //private ThisIsATestClass _uut;
+        private ChargeControl _uut;
 
         [SetUp]
         public void Setup()
         {
             // Common Arrange:
-            // _uut = new ThisIsATestClass();
-            
+            // Using NSubstitute = no common Setup?
         }
 
         [Test]
-        public void ThisWillReturnTrue_NoAction_IsTrue()
+        public void IsConnected_Connected_IsTrue()
         {
             // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
+            mockUsbCharger.Connected.Returns(true);
+            
+            // Assert
+            Assert.IsTrue(_uut.IsConnected());
+        }
+
+        [Test]
+        public void IsConnected_Disconnected_IsFalse()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.Connected.Returns(false);
 
             // Assert
-            //Assert.IsTrue(_uut.ThisWillReturnTrue());
-            Assert.IsTrue(true);
+            Assert.IsFalse(_uut.IsConnected());
         }
     }
 }
