@@ -15,17 +15,17 @@
     </IncludeFilters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>nunit.framework</ModuleMask>
-        <ClassMask>UsbSimulator</ClassMask>
+        <ModuleMask>UsbSimulator</ModuleMask>
+        <ClassMask>*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
-        <ModuleMask>nunit.framework</ModuleMask>
-        <ClassMask>Ladeskab.Test.Unit</ClassMask>
+        <ModuleMask>Ladeskab.Test.Unit</ModuleMask>
+        <ClassMask>*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
-        <ModuleMask>nunit.framework</ModuleMask>
+        <ModuleMask>Ladeskab</ModuleMask>
         <ClassMask>Program</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
