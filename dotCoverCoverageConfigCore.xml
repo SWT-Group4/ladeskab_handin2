@@ -18,7 +18,7 @@
       <FilterEntry>
         <ModuleMask>nunit.framework</ModuleMask>
         <ClassMask>UsbSimulator</ClassMask>
-<ClassMask>*_Test</ClassMask>
+<ClassMask>Ladeskab.Test.Unit</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
     </ExcludeFilters>
