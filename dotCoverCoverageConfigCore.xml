@@ -15,8 +15,8 @@
     </IncludeFilters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>UsbSimulator</ModuleMask>
-        <ClassMask>*</ClassMask>
+        <ModuleMask>Ladeskab</ModuleMask>
+        <ClassMask>*Simulator*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
