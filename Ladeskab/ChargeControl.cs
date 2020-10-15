@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Runtime.InteropServices;
 using UsbSimulator;
 
 namespace Ladeskab
@@ -8,27 +9,26 @@ namespace Ladeskab
         private readonly IUsbCharger _usbCharger;
         private readonly IDisplay _display;
 
-
         private enum ChargerState
         {
-            Ready,
+            Idle,
             TrickleChargeFullyCharged,
             IsCharging,
             OverCurrentFail
         };
-        private ChargerState _chargerState = ChargerState.Ready;
+        private ChargerState _chargerState = ChargerState.Idle;
 
-        // Constants:
-        private const double MaxChargingCurrent = 500.0;
-        private const double MinChargingCurrent = 5.0;
+        // Constants
+        private const double MaxChargingCurrent = 500.000;
+        private const double MinChargingCurrent = 5.000;
+        private const double ZeroChargingCurrent = 0.000;
         
 
         // Attributes
         private double _chargingCurrent = 0.0;
-        public bool UsbChargerIsConnected = false;
+        private bool _deviceToChargeIsConnected = false;
         
         // Methods
-        
         public ChargeControl(IDisplay display, IUsbCharger usbCharger)
         {
             // Directly Use Display:
@@ -38,27 +38,27 @@ namespace Ladeskab
             _usbCharger = usbCharger;
 
             // Attach to ChargingCurrentUpdate events from USB Charger:
-            _usbCharger.ChargingCurrentEvent += OnChargingCurrentUpdate;
+            _usbCharger.ChargingCurrentEvent += OnChargeCurrentUpdate;
         }
 
         public void StartCharge()
         {
+            _chargerState = ChargerState.Idle;
             _usbCharger.StartCharge();
-            _chargerState = ChargerState.Ready;
         }
 
         public void StopCharge()
         {
+            _chargerState = ChargerState.Idle;
             _usbCharger.StopCharge();
-            _chargerState = ChargerState.Ready;
         }
 
         public bool IsConnected()
         {
-            return UsbChargerIsConnected;
+            return _usbCharger.Connected;
         }
 
-        private void OnChargingCurrentUpdate(object sender, CurrentEventArgs e)
+        private void OnChargeCurrentUpdate(object sender, CurrentEventArgs e)
         {
             _chargingCurrent = e.Current;
 
@@ -66,31 +66,35 @@ namespace Ladeskab
             UpdateDisplay();
         }
         
-        // OnChargingCurrentUpdate Helper Functions
+        // OnChargeCurrentUpdate Helper Functions
         private void EvaluateChargerState()
         {
             if (_chargingCurrent > MaxChargingCurrent)
             {
                 _usbCharger.StopCharge();
                 _chargerState = ChargerState.OverCurrentFail;
-                UsbChargerIsConnected = true;
+                _deviceToChargeIsConnected = true;
             }
-            else if (_chargingCurrent > MinChargingCurrent &&
-                     _chargingCurrent < MaxChargingCurrent)
+            else if (_chargingCurrent < MaxChargingCurrent &&
+                     _chargingCurrent > MinChargingCurrent)
             {
                 _chargerState = ChargerState.IsCharging;
-                UsbChargerIsConnected = true;
+                _deviceToChargeIsConnected = true;
             }
-            else if (_chargingCurrent > 0.0 &&
-                     _chargingCurrent < MinChargingCurrent)
+            else if (_chargingCurrent < MinChargingCurrent &&
+                     _chargingCurrent > ZeroChargingCurrent)
             {
                 _chargerState = ChargerState.TrickleChargeFullyCharged;
-                UsbChargerIsConnected = true;
+                _deviceToChargeIsConnected = true;
             }
-            else if (_chargerState != ChargerState.OverCurrentFail)
+            else
             {
-                _chargerState = ChargerState.Ready;
-                UsbChargerIsConnected = false;
+                // Persist OverCurrent State Message in Display
+                // until manually reset is performed by invoking StartCharge()
+                if (_chargerState == ChargerState.OverCurrentFail) return;
+
+                _chargerState = ChargerState.Idle;
+                _deviceToChargeIsConnected = false;
             }
         }
         private void UpdateDisplay()
@@ -101,7 +105,7 @@ namespace Ladeskab
                     _display.OverCurrentFail();
                     break;
 
-                case ChargerState.Ready:
+                case ChargerState.Idle:
                     _display.NotCharging();
                     break;
 
@@ -118,9 +122,6 @@ namespace Ladeskab
             }
             
         }
-
-
-
 
     }
 
