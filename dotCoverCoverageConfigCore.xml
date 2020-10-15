@@ -14,11 +14,19 @@
     <IncludeFilters>
     </IncludeFilters>
     <ExcludeFilters>
-
       <FilterEntry>
         <ModuleMask>nunit.framework</ModuleMask>
         <ClassMask>UsbSimulator</ClassMask>
-<ClassMask>Ladeskab.Test.Unit</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>nunit.framework</ModuleMask>
+        <ClassMask>Ladeskab.Test.Unit</ClassMask>
+        <FunctionMask>*</FunctionMask>
+      </FilterEntry>
+      <FilterEntry>
+        <ModuleMask>nunit.framework</ModuleMask>
+        <ClassMask>Program</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
     </ExcludeFilters>
