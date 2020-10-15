@@ -14,9 +14,11 @@
     <IncludeFilters>
     </IncludeFilters>
     <ExcludeFilters>
+
       <FilterEntry>
         <ModuleMask>nunit.framework</ModuleMask>
-        <ClassMask>*</ClassMask>
+        <ClassMask>UsbSimulator</ClassMask>
+<ClassMask>*_Test</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
     </ExcludeFilters>
