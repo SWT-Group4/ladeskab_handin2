@@ -17,6 +17,7 @@ namespace Ladeskab
             OverCurrentFail
         };
         private ChargerState _chargerState = ChargerState.Idle;
+        public int ReadChargerState = -1;
 
         // Constants
         private const double MaxChargingCurrent = 500.000;
@@ -27,7 +28,6 @@ namespace Ladeskab
         // Attributes
         private double _chargingCurrent = 0.0;
         public double ReadChargingCurrent = -1.0;
-        private bool _deviceToChargeIsConnected = false;
         
         // Methods
         public ChargeControl(IDisplay display, IUsbCharger usbCharger)
@@ -75,19 +75,19 @@ namespace Ladeskab
             {
                 _usbCharger.StopCharge();
                 _chargerState = ChargerState.OverCurrentFail;
-                _deviceToChargeIsConnected = true;
+                
             }
-            else if (_chargingCurrent < MaxChargingCurrent &&
+            else if (_chargingCurrent <= MaxChargingCurrent &&
                      _chargingCurrent > MinChargingCurrent)
             {
                 _chargerState = ChargerState.IsCharging;
-                _deviceToChargeIsConnected = true;
+                
             }
-            else if (_chargingCurrent < MinChargingCurrent &&
+            else if (_chargingCurrent <= MinChargingCurrent &&
                      _chargingCurrent > ZeroChargingCurrent)
             {
                 _chargerState = ChargerState.TrickleChargeFullyCharged;
-                _deviceToChargeIsConnected = true;
+              
             }
             else
             {
@@ -96,8 +96,9 @@ namespace Ladeskab
                 if (_chargerState == ChargerState.OverCurrentFail) return;
 
                 _chargerState = ChargerState.Idle;
-                _deviceToChargeIsConnected = false;
+               
             }
+            ReadChargerState = (int)_chargerState;
         }
         private void UpdateDisplay()
         {

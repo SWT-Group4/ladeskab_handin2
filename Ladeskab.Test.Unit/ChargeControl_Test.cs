@@ -7,6 +7,7 @@
  */
 
 
+using System;
 using System.Runtime.InteropServices.ComTypes;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
@@ -114,6 +115,48 @@ namespace Ladeskab.Test.Unit
             // Assert
             Assert.That(_uut.ReadChargingCurrent, Is.EqualTo(100.000));
         }
+
+        #endregion
+
+        #region EvaluateCurrent
+
+        [TestCase(0.000, 0)]
+        [TestCase(0.001, 1)]
+        [TestCase(5.000, 1)]
+        [TestCase(5.001, 2)]
+        [TestCase(500.000, 2)]
+        [TestCase(500.001, 3)]
+        public void EvaluateCurrent_CurrentChange_ChargerStateIsCorrect(double currentChange, int chargerState)
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = currentChange });
+
+            // Assert
+            Assert.That(_uut.ReadChargerState, Is.EqualTo(chargerState));
+        }
+
+        [Test]
+        public void EvaluateCurrent_OverCurrentFail_StopChargeCalledOnce()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 800.000 });
+
+            // Assert
+            mockUsbCharger.Received(1).StopCharge();
+        }
+
 
         #endregion
     }
