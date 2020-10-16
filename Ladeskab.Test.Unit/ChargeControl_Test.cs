@@ -157,11 +157,33 @@ namespace Ladeskab.Test.Unit
             mockUsbCharger.Received(1).StopCharge();
         }
 
+        [Test]
+        public void EvaluateCurrent_OverCurrentFail_PersistDisplay()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 800.000 });
+            
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 0.000 });
+
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 0.000 });
+
+            // Assert
+            Assert.That(_uut.ReadChargerState, Is.EqualTo((int)3));
+        }
+
 
         #endregion()()
 
         #region UpdateDisplay()
-        
+
         [TestCase(0.0, 1, 0, 0, 0)]
         [TestCase(2.5, 0, 1, 0, 0)]
         [TestCase(25.0, 0, 0, 1, 0)]

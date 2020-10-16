@@ -23,8 +23,7 @@ namespace Ladeskab
         private const double MaxChargingCurrent = 500.000;
         private const double MinChargingCurrent = 5.000;
         private const double ZeroChargingCurrent = 0.000;
-        private const int NormalOperation = -1; 
-        
+
 
         // Attributes
         private double _chargingCurrent = 0.0;
@@ -110,10 +109,6 @@ namespace Ladeskab
                     _display.OverCurrentFail();
                     break;
 
-                case ChargerState.Idle:
-                    _display.NotCharging();
-                    break;
-
                 case ChargerState.TrickleChargeFullyCharged:
                     _display.FullyCharged();
                     break;
@@ -121,8 +116,9 @@ namespace Ladeskab
                 case ChargerState.IsCharging:
                     _display.IsCharging();
                     break;
+
                 default:
-                    // ?
+                    _display.NotCharging();
                     break;
             }
             
