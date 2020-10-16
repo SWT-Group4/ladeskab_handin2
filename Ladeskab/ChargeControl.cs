@@ -26,6 +26,7 @@ namespace Ladeskab
 
         // Attributes
         private double _chargingCurrent = 0.0;
+        public double ReadChargingCurrent = -1.0;
         private bool _deviceToChargeIsConnected = false;
         
         // Methods
@@ -38,7 +39,7 @@ namespace Ladeskab
             _usbCharger = usbCharger;
 
             // Attach to ChargingCurrentUpdate events from USB Charger:
-            _usbCharger.ChargingCurrentEvent += OnChargeCurrentUpdate;
+            this._usbCharger.ChargingCurrentEvent += OnChargeCurrentUpdate;
         }
 
         public void StartCharge()
@@ -61,6 +62,7 @@ namespace Ladeskab
         private void OnChargeCurrentUpdate(object sender, CurrentEventArgs e)
         {
             _chargingCurrent = e.Current;
+            ReadChargingCurrent = _chargingCurrent;
 
             EvaluateChargerState();
             UpdateDisplay();

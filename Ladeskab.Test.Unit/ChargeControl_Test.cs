@@ -10,6 +10,7 @@
 using System.Runtime.InteropServices.ComTypes;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
+using NSubstitute.Routing.Handlers;
 using NUnit.Framework;
 using UsbSimulator;
 
@@ -94,6 +95,25 @@ namespace Ladeskab.Test.Unit
             mockUsbCharger.Received(1).StopCharge();
         }
 
+
+        #endregion
+
+        #region OnChargeCurrentEvent
+        [Test]
+        public void OnNewCurrent_ListenForCurrent_CurrentIsReceived()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() {Current = 100.000});
+
+            // Assert
+            Assert.That(_uut.ReadChargingCurrent, Is.EqualTo(100.000));
+        }
 
         #endregion
     }
