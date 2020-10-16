@@ -28,6 +28,8 @@ namespace Ladeskab.Test.Unit
             // Using NSubstitute = no common Setup?
         }
 
+        #region IsConnected()
+
         [Test]
         public void IsConnected_Connected_IsTrue()
         {
@@ -38,7 +40,7 @@ namespace Ladeskab.Test.Unit
 
             // Act
             mockUsbCharger.Connected.Returns(true);
-            
+
             // Assert
             Assert.IsTrue(_uut.IsConnected());
         }
@@ -57,5 +59,42 @@ namespace Ladeskab.Test.Unit
             // Assert
             Assert.IsFalse(_uut.IsConnected());
         }
+
+        #endregion
+
+        #region StartCharge()
+        [Test]
+        public void StartCharge_UsbChargerStarts_CalledOnce()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+            
+            // Act
+            _uut.StartCharge();
+            // Assert
+            mockUsbCharger.Received(1).StartCharge();
+        }
+
+        #endregion
+
+        #region StopCharge()
+        [Test]
+        public void StopCharge_UsbChargerStops_CalledOnce()
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            _uut.StopCharge();
+            // Assert
+            mockUsbCharger.Received(1).StopCharge();
+        }
+
+
+        #endregion
     }
 }
