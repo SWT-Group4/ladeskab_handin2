@@ -99,7 +99,7 @@ namespace Ladeskab.Test.Unit
 
         #endregion
 
-        #region OnChargeCurrentEvent
+        #region OnChargeCurrentEvent()
         [Test]
         public void OnNewCurrent_ListenForCurrent_CurrentIsReceived()
         {
@@ -116,9 +116,9 @@ namespace Ladeskab.Test.Unit
             Assert.That(_uut.ReadChargingCurrent, Is.EqualTo(100.000));
         }
 
-        #endregion
+        #endregion()()
 
-        #region EvaluateCurrent
+        #region EvaluateCurrent()
 
         [TestCase(0.000, 0)]
         [TestCase(0.001, 1)]
@@ -157,6 +157,61 @@ namespace Ladeskab.Test.Unit
             mockUsbCharger.Received(1).StopCharge();
         }
 
+
+        #endregion()()
+
+        #region UpdateDisplay()
+        
+        [TestCase(0.0, 1, 0, 0, 0)]
+        [TestCase(2.5, 0, 1, 0, 0)]
+        [TestCase(25.0, 0, 0, 1, 0)]
+        [TestCase(525.0, 0, 0, 0, 1)]
+    
+        public void UpdateDisplay_FullyCharged_CalledOnce
+            (double testCurrent, int a, int b, int c, int d)
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = testCurrent });
+
+            // Assert
+            stubDisplay.Received(a).NotCharging();
+            stubDisplay.Received(b).FullyCharged();
+            stubDisplay.Received(c).IsCharging();
+            stubDisplay.Received(d).OverCurrentFail();
+        }
+
+        
+        [TestCase(5,0.0, 5, 0, 0, 0)]
+        [TestCase(5, 2.5, 0, 5, 0, 0)]
+        [TestCase(10, 25.0, 0, 0, 10, 0)]
+        [TestCase(3, 525.0, 0, 0, 0, 3)]
+        public void UpdateDisplay_MultiEvents_CalledCorrectNumberOfTimes
+            (int events,  double testCurrent, int a, int b, int c, int d)
+        {
+            // Arrange
+            var stubDisplay = Substitute.For<IDisplay>();
+            var mockUsbCharger = Substitute.For<IUsbCharger>();
+            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
+
+            // Act
+            for (int i = 0; i < events; i++)
+            {
+                mockUsbCharger.ChargingCurrentEvent +=
+                    Raise.EventWith(new CurrentEventArgs() {Current = testCurrent});
+            }
+
+            // Assert
+            stubDisplay.Received(a).NotCharging();
+            stubDisplay.Received(b).FullyCharged();
+            stubDisplay.Received(c).IsCharging();
+            stubDisplay.Received(d).OverCurrentFail();
+        }
 
         #endregion
     }

@@ -23,6 +23,7 @@ namespace Ladeskab
         private const double MaxChargingCurrent = 500.000;
         private const double MinChargingCurrent = 5.000;
         private const double ZeroChargingCurrent = 0.000;
+        private const int NormalOperation = -1; 
         
 
         // Attributes
@@ -102,6 +103,7 @@ namespace Ladeskab
         }
         private void UpdateDisplay()
         {
+
             switch (_chargerState)
             {
                 case ChargerState.OverCurrentFail:
