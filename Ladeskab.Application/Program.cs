@@ -1,7 +1,8 @@
-﻿using System;
+﻿using LadeskabClasses;
+using System;
 using UsbSimulator;
 
-namespace Ladeskab
+namespace Ladeskab.Application
 {
 
     class Program
