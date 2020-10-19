@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ladeskab\LadeskabClasses.csproj" />
+    <ProjectReference Include="..\LadeskabClasses\LadeskabClasses.csproj" />
   </ItemGroup>
 
 </Project>

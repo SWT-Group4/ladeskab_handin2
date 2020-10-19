@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Runtime.InteropServices;
-using UsbSimulator;
+using Ladeskab;
+using LadeskabClasses.Interfaces;
 
-namespace Ladeskab
+
+namespace LadeskabClasses
 {
     public class ChargeControl : IChargeControl
     {

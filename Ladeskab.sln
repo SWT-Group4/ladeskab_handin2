@@ -1,13 +1,13 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30413.136
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LadeskabClasses", "LadeskabClasses.csproj", "{2C22952E-682F-4214-8491-DC7A813B43E3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LadeskabClasses", ".\LadeskabClasses\LadeskabClasses.csproj", "{2C22952E-682F-4214-8491-DC7A813B43E3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ladeskab.Test.Unit", "..\Ladeskab.Test.Unit\Ladeskab.Test.Unit.csproj", "{C47A07D5-21E6-4C32-A155-8D005806C7BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ladeskab.Test.Unit", ".\Ladeskab.Test.Unit\Ladeskab.Test.Unit.csproj", "{C47A07D5-21E6-4C32-A155-8D005806C7BB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ladeskab.Application", "..\LadeskabApp\Ladeskab.Application.csproj", "{F52BCC1C-3A8B-4E5E-85BC-6A038C294205}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ladeskab.Application", ".\Ladeskab.Application\Ladeskab.Application.csproj", "{F52BCC1C-3A8B-4E5E-85BC-6A038C294205}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

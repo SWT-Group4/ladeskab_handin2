@@ -1,6 +1,7 @@
 ﻿using System;
+using Ladeskab;
 
-namespace Ladeskab
+namespace LadeskabClasses
 {
     public class Door : IDoor
     {

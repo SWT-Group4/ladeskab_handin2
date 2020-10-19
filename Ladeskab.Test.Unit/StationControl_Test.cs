@@ -6,6 +6,8 @@
  *  Description: Unit Tests for Ladeskab.StationControl.cs
  */
 
+using LadeskabClasses;
+using LadeskabClasses.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 using UsbSimulator;

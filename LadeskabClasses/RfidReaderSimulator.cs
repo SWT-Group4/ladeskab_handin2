@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Ladeskab;
 
-namespace Ladeskab
+namespace LadeskabClasses
 {
     public class RfidReaderSimulator : IRfidReader
     {

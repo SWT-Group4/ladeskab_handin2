@@ -7,13 +7,10 @@
  */
 
 
-using System;
-using System.Runtime.InteropServices.ComTypes;
+using LadeskabClasses;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
-using NSubstitute.Routing.Handlers;
 using NUnit.Framework;
-using UsbSimulator;
 
 namespace Ladeskab.Test.Unit
 {
