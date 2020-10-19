@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Ladeskab;
+using LadeskabClasses.Interfaces;
 
 namespace LadeskabClasses
 {

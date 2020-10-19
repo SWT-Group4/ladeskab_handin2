@@ -4,7 +4,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Ladeskab;
 using LadeskabClasses.Interfaces;
 using UsbSimulator;
 

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Ladeskab
+namespace LadeskabClasses.Interfaces
 {
     public class RfidEventArgs : EventArgs
         {

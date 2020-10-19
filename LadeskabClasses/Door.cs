@@ -1,5 +1,5 @@
 ﻿using System;
-using Ladeskab;
+using LadeskabClasses.Interfaces;
 
 namespace LadeskabClasses
 {

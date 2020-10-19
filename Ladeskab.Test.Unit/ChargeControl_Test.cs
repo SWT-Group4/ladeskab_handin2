@@ -8,6 +8,7 @@
 
 
 using LadeskabClasses;
+using LadeskabClasses.Interfaces;
 using NSubstitute;
 using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;

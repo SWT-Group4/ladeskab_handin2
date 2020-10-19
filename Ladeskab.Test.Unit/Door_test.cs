@@ -1,4 +1,5 @@
-﻿using NSubstitute;
+﻿using LadeskabClasses.Interfaces;
+using NSubstitute;
 using NUnit.Framework;
 
 namespace Ladeskab.Test.Unit
