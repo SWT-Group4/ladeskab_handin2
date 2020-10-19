@@ -15,7 +15,7 @@
     </IncludeFilters>
     <ExcludeFilters>
       <FilterEntry>
-        <ModuleMask>Ladeskab</ModuleMask>
+        <ModuleMask>LadeskabClasses</ModuleMask>
         <ClassMask>*Simulator*</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
@@ -25,7 +25,7 @@
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
       <FilterEntry>
-        <ModuleMask>Ladeskab</ModuleMask>
+        <ModuleMask>LadeskabClasses</ModuleMask>
         <ClassMask>Program</ClassMask>
         <FunctionMask>*</FunctionMask>
       </FilterEntry>
