@@ -21,11 +21,17 @@ namespace Ladeskab.Test.Unit
         // Pre-Setup:
         private ChargeControl _uut;
 
+        private IDisplay _stubDisplay;
+        private IUsbCharger _mockUsbCharger;
+
         [SetUp]
         public void Setup()
         {
             // Common Arrange:
-            // Using NSubstitute = no common Setup?
+            _stubDisplay = Substitute.For<IDisplay>();
+            _mockUsbCharger = Substitute.For<IUsbCharger>();
+
+            _uut = new ChargeControl(_stubDisplay, _mockUsbCharger);
         }
 
         #region IsConnected()
@@ -34,12 +40,9 @@ namespace Ladeskab.Test.Unit
         public void IsConnected_Connected_IsTrue()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
-
+            
             // Act
-            mockUsbCharger.Connected.Returns(true);
+            _mockUsbCharger.Connected.Returns(true);
 
             // Assert
             Assert.IsTrue(_uut.IsConnected());
@@ -49,12 +52,9 @@ namespace Ladeskab.Test.Unit
         public void IsConnected_Disconnected_IsFalse()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.Connected.Returns(false);
+            _mockUsbCharger.Connected.Returns(false);
 
             // Assert
             Assert.IsFalse(_uut.IsConnected());
@@ -67,14 +67,12 @@ namespace Ladeskab.Test.Unit
         public void StartCharge_UsbChargerStarts_CalledOnce()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
             
             // Act
             _uut.StartCharge();
+
             // Assert
-            mockUsbCharger.Received(1).StartCharge();
+            _mockUsbCharger.Received(1).StartCharge();
         }
 
         #endregion
@@ -84,14 +82,12 @@ namespace Ladeskab.Test.Unit
         public void StopCharge_UsbChargerStops_CalledOnce()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
             _uut.StopCharge();
+
             // Assert
-            mockUsbCharger.Received(1).StopCharge();
+            _mockUsbCharger.Received(1).StopCharge();
         }
 
 
@@ -102,12 +98,9 @@ namespace Ladeskab.Test.Unit
         public void OnNewCurrent_ListenForCurrent_CurrentIsReceived()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() {Current = 100.000});
 
             // Assert
@@ -127,12 +120,9 @@ namespace Ladeskab.Test.Unit
         public void EvaluateCurrent_CurrentChange_ChargerStateIsCorrect(double currentChange, int chargerState)
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = currentChange });
 
             // Assert
@@ -143,34 +133,28 @@ namespace Ladeskab.Test.Unit
         public void EvaluateCurrent_OverCurrentFail_StopChargeCalledOnce()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = 800.000 });
 
             // Assert
-            mockUsbCharger.Received(1).StopCharge();
+            _mockUsbCharger.Received(1).StopCharge();
         }
 
         [Test]
         public void EvaluateCurrent_OverCurrentFail_PersistDisplay()
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = 800.000 });
             
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = 0.000 });
 
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = 0.000 });
 
             // Assert
@@ -191,19 +175,16 @@ namespace Ladeskab.Test.Unit
             (double testCurrent, int a, int b, int c, int d)
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
-            mockUsbCharger.ChargingCurrentEvent +=
+            _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = testCurrent });
 
             // Assert
-            stubDisplay.Received(a).NotCharging();
-            stubDisplay.Received(b).FullyCharged();
-            stubDisplay.Received(c).IsCharging();
-            stubDisplay.Received(d).OverCurrentFail();
+            _stubDisplay.Received(a).NotCharging();
+            _stubDisplay.Received(b).FullyCharged();
+            _stubDisplay.Received(c).IsCharging();
+            _stubDisplay.Received(d).OverCurrentFail();
         }
 
         
@@ -215,22 +196,19 @@ namespace Ladeskab.Test.Unit
             (int events,  double testCurrent, int a, int b, int c, int d)
         {
             // Arrange
-            var stubDisplay = Substitute.For<IDisplay>();
-            var mockUsbCharger = Substitute.For<IUsbCharger>();
-            _uut = new ChargeControl(stubDisplay, mockUsbCharger);
 
             // Act
             for (int i = 0; i < events; i++)
             {
-                mockUsbCharger.ChargingCurrentEvent +=
+                _mockUsbCharger.ChargingCurrentEvent +=
                     Raise.EventWith(new CurrentEventArgs() {Current = testCurrent});
             }
 
             // Assert
-            stubDisplay.Received(a).NotCharging();
-            stubDisplay.Received(b).FullyCharged();
-            stubDisplay.Received(c).IsCharging();
-            stubDisplay.Received(d).OverCurrentFail();
+            _stubDisplay.Received(a).NotCharging();
+            _stubDisplay.Received(b).FullyCharged();
+            _stubDisplay.Received(c).IsCharging();
+            _stubDisplay.Received(d).OverCurrentFail();
         }
 
         #endregion
