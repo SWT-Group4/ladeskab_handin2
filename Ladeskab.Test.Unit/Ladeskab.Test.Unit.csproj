@@ -13,6 +13,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Ladeskab\Ladeskab.csproj" />
+    <ProjectReference Include="..\Ladeskab\LadeskabClasses.csproj" />
   </ItemGroup>
 </Project>
