@@ -1,27 +1,147 @@
-﻿using LadeskabClasses.Interfaces;
+﻿using System.Runtime.InteropServices.ComTypes;
+using LadeskabClasses;
+using LadeskabClasses.Interfaces;
 using NSubstitute;
 using NUnit.Framework;
 
 namespace Ladeskab.Test.Unit
 {
     [TestFixture]
-    public class Door_test
+    public class DoorUnitTest
     {
+        private Door _uut;
+
         [SetUp]
-        public void setup()
+        public void Setup()
         {
-
+            _uut = new Door();
         }
+
+        #region ClosedDoor Test
+        /*
+         * Tests for scenarios when the door is closed
+         */
+
+        //Try and close a open door
         [Test]
-        public void DoorTest_DoorLocked()
+        public void DoorTest_CloseDoor_DoorClosed()
         {
-            //Test fejler altid, da _door ikke påvirker _test variabler!
-            var _door = Substitute.For<IDoor>();
-            var _test = Substitute.For<DoorEventArgs>();
-            //_test.DoorState = true;
-            _door.UnlockDoor();
-            Assert.False(_test.DoorState);
+            //Arrange
 
+            //Act
+            _uut.DoorClosed();
+
+            //Assert
+            Assert.IsFalse(_uut.DoorState);
         }
+
+        //Try and close a closed door
+        [Test]
+        public void DoorTest_CloseDoor_DoorAlreadyClosed()
+        {
+            //Arrange
+
+            //Act
+            _uut.DoorClosed();
+
+            //Assert
+            Assert.That(_uut.DoorState, Is.False);
+        }
+
+        // Try and lock a closed door
+        [Test]
+        public void DoorTest_LockClosedDoor_DoorIsLocked()
+        {
+            //Arrange
+
+            //Act
+            _uut.LockDoor();
+
+            //Assert
+            Assert.IsTrue(_uut.DoorLocked);
+        }
+
+        // Try and unlock a locked door
+        [Test]
+        public void DoorTest_UnlockClosedDoor_DoorIsUnlocked()
+        {
+            //Arrange
+
+            //Act
+            _uut.LockDoor();
+            _uut.DoorOpened();
+
+            //Assert
+            Assert.That(_uut.DoorState, Is.False);
+        }
+
+        #endregion
+
+        #region OpenDoor Test
+        /*
+         * Tests for scenarios when the door is open
+         */
+
+        // Open the Door test
+        [Test]
+        public void DoorTest_OpenDoor()
+        {
+            //Arrange
+
+            //Act
+            _uut.DoorOpened();
+
+            //Assert
+            Assert.IsTrue(_uut.DoorState);
+        }
+
+        // Try and open the door when it's already open
+        [Test]
+        public void DoorTest_OpenDoor_DoorAlreadyOpen()
+        {
+            //Arrange
+
+            //Act
+            _uut.DoorOpened();
+            _uut.DoorOpened();
+
+            //Assert
+            Assert.IsTrue(_uut.DoorState);
+        }
+
+        // Try and lock the door when it's open.
+        // With this test it's deemed not necessary to test the unlock function 
+        // when opened, if it can't lock.
+        [Test]
+        public void DoorTest_LockOpenDoor_DoorIsNotLocked()
+        {
+            //Arrange
+
+            //Act
+            _uut.DoorOpened();
+            _uut.LockDoor();
+
+            //Assert
+            Assert.IsFalse(_uut.DoorLocked);
+        }
+
+        //Try and open locked door
+        [Test]
+        public void DoorTest_OpenLockedDoor_DoorNotOpen()
+        {
+            //Arrange
+
+            //Act
+            _uut.DoorClosed();
+            _uut.LockDoor();
+            _uut.DoorOpened();
+
+            //Assert
+            Assert.IsTrue(_uut.DoorLocked);
+        }
+
+        #endregion
+
+
     }
 }

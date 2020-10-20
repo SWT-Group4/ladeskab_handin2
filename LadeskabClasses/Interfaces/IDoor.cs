@@ -18,8 +18,10 @@ namespace LadeskabClasses.Interfaces
         // Unlock the door
         void UnlockDoor();
 
+        // Function to indicate User opened the door
         void DoorOpened();
 
+        // Function to indicate User closed the door
         void DoorClosed();
     }
 }

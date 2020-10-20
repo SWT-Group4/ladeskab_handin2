@@ -6,35 +6,65 @@ namespace LadeskabClasses
     public class Door : IDoor
     {
         public event EventHandler<DoorEventArgs> DoorEvent;
-        DoorEventArgs state = new DoorEventArgs();
 
+        private DoorEventArgs _state = new DoorEventArgs
+        {
+            DoorState = false
+        };
+
+        // Door state. Open=True and Closed=False
+        public bool DoorState { get; private set; }
+        // Door Locked. Yes=True and No=False
+        public bool DoorLocked { get; private set; }
+
+        public Door()
+        {
+
+            DoorState = false;
+            DoorLocked = false;
+        }
+
+        // Activates when the User closes the door
         public void DoorClosed()
         {
-            state.DoorState = false;
-            DoorEvent?.Invoke(this, state);
+            // If the door is already closed return
+            if (!DoorState) return;
+            // Sets state
+            _state.DoorState = false;
+            DoorState = false;
+            // Invokes event
+            DoorEvent?.Invoke(this, _state);
         }
 
+        // Activates when the User opens the door
         public void DoorOpened()
         {
-            if (state.DoorState)
-            {
-                state.DoorState = true;
-                DoorEvent?.Invoke(this, state);
-            }
+            //If the Door is already open or locked return
+            if (DoorState || DoorLocked) return;
+            // Sets state
+            _state.DoorState = true;
+            DoorState = true;
+            // Invoke Event
+            DoorEvent?.Invoke(this, _state);
         }
 
+        // Locks the door
         public void LockDoor()
         {
-            if (state.DoorState)
-                return;
-            state.DoorState = false;
+            // Checks if door is already locked
+            if (DoorState || DoorLocked) return;
+            // Changes state
+            DoorLocked = true;
         }
 
+        // Unlocks the door
         public void UnlockDoor()
         {
-            if (state.DoorState)
-                return;
-            state.DoorState = true;
+            // Checks if the door is already unlocked
+            if (!DoorLocked) return;
+
+            // Change state
+            DoorLocked = false;
         }
     }
 }
