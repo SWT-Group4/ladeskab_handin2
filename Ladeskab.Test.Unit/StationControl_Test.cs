@@ -264,7 +264,7 @@ namespace Ladeskab.Test.Unit
         public void RfidDetected_StateDoorOpen_NothingHappens()
         {
             // Arrange
-            _uut._state = StationControl.LadeskabState.Available;
+            _uut._state = StationControl.LadeskabState.DoorOpen;
             _fakeChargeControl.IsConnected().Returns(false);
 
             // Act - Raise event in fake
