@@ -85,7 +85,6 @@ namespace Ladeskab.Test.Unit
 
             //Act
             _uut.LockDoor();
-            _uut.DoorOpened();
 
             //Assert
             Assert.That(_uut.DoorState, Is.False);
