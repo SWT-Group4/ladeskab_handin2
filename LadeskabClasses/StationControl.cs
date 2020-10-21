@@ -24,18 +24,18 @@ namespace LadeskabClasses
         private IDoor _door;
         private IRfidReader _rfidReader;
         private IDisplay _display;
+        private ILogfileWriter _logfile;
         private int _oldId;
 
-        private string logFile = "logfile.txt"; // Navnet på systemets log-fil
-
         // Constructor
-        public StationControl(IChargeControl Charger, IDoor door, IRfidReader rfidReader, IDisplay display)
+        public StationControl(IChargeControl Charger, IDoor door, IRfidReader rfidReader, IDisplay display, ILogfileWriter logfile)
         {
             // Constructor injection
             _charger = Charger;
             _door = door;
             _rfidReader = rfidReader;
             _display = display;
+            _logfile = logfile;
 
             // Assigning subscribers to events
             _rfidReader.RfidEvent += RfidDetected;
@@ -54,7 +54,7 @@ namespace LadeskabClasses
                         _door.LockDoor();
                         _charger.StartCharge();
                         _oldId = e.Id;
-                        LogDoorLocked(e.Id);
+                        _logfile.LogDoorLocked(e.Id);
 
                         _display.StateChangedToLocked();
                         _state = LadeskabState.Locked;
@@ -76,7 +76,7 @@ namespace LadeskabClasses
                     {
                         _charger.StopCharge();
                         _door.UnlockDoor();
-                        LogDoorUnlocked(e.Id);
+                        _logfile.LogDoorUnlocked(e.Id);
 
                         _display.StateChangedToUnlocked();
                         _state = LadeskabState.Available;
@@ -114,24 +114,6 @@ namespace LadeskabClasses
                 case LadeskabState.Locked:
                     // Breakin! Should not be possible
                     break;
-            }
-        }
-
-        // These functions interface with the real world (log-file, system calls, displays etc), so the most correct
-        // thing might be to put them in classes of their own.
-        private void LogDoorLocked(int ID)
-        {
-            using (var writer = File.AppendText(logFile))
-            {
-                writer.WriteLine(DateTime.Now + ": Skab låst med RFID: {0}", ID);
-            }
-        }
-        
-        private void LogDoorUnlocked(int ID)
-        {
-            using (var writer = File.AppendText(logFile))
-            {
-                writer.WriteLine(DateTime.Now + ": Skab låst op med RFID: {0}", ID);
             }
         }
     }
