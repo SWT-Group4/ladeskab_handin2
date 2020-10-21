@@ -12,44 +12,46 @@ namespace Ladeskab.Application
             // Assemble your system here from all the classes
             Door _door = new Door();
             RfidReaderSimulator _rfid = new RfidReaderSimulator();
-            //UsbChargerSimulator _usbCharger = new UsbChargerSimulator();
-            //ChargeControl _chargeControl = new ChargeControl(_usbCharger);
-            //StationControl _stationControl = new StationControl(_chargeControl, _door, _rfid)
-        bool finish = false;
-        do
-        {
-            string input;
-            System.Console.WriteLine("Indtast E, O, C, R: ");
-            input = Console.ReadLine();
-            if (string.IsNullOrEmpty(input)) continue;
+            UsbChargerSimulator _usbCharger = new UsbChargerSimulator();
+            DisplaySimulator _display = new DisplaySimulator();
+            ChargeControl _chargeControl = new ChargeControl(_display, _usbCharger);
+            StationControl _stationControl = new StationControl(_chargeControl, _door, _rfid, _display);
 
-            switch (input[0])
+            bool finish = false;
+            do
             {
-                case 'E':
-                    finish = true;
-                    break;
+                string input;
+                System.Console.WriteLine("Indtast E, O, C, R: ");
+                input = Console.ReadLine();
+                if (string.IsNullOrEmpty(input)) continue;
 
-                case 'O':
-                    _door.DoorOpened();
-                    break;
+                switch (input[0])
+                {
+                    case 'E':
+                        finish = true;
+                        break;
 
-                case 'C':
-                    _door.DoorClosed();
-                    break;
+                    case 'O':
+                        _door.DoorOpened();
+                        break;
 
-                case 'R':
-                    System.Console.WriteLine("Indtast RFID id: ");
-                    string idString = System.Console.ReadLine();
+                    case 'C':
+                        _door.DoorClosed();
+                        break;
 
-                    int id = Convert.ToInt32(idString);
-                    _rfid.ScanRfidTag(id);
-                    break;
+                    case 'R':
+                        System.Console.WriteLine("Indtast RFID id: ");
+                        string idString = System.Console.ReadLine();
 
-                default:
-                    break;
+                        int id = Convert.ToInt32(idString);
+                        _rfid.ScanRfidTag(id);
+                        break;
+
+                    default:
+                        break;
+                }
+
+            } while (!finish);
             }
-
-        } while (!finish);
         }
-    }
 }

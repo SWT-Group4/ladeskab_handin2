@@ -8,6 +8,12 @@ namespace LadeskabClasses.Interfaces
         void FullyCharged();
         void IsCharging();
         void OverCurrentFail();
+        void StateChangedToLocked();
+        void ErrorInPhoneConnection();
+        void StateChangedToUnlocked();
+        void RfidNoMatch();
+        void ConnectPhone();
+        void ReadRfid();
     }
 }
 
