@@ -29,6 +29,7 @@ namespace Ladeskab.Test.Unit
             //Arrange
 
             //Act
+            _uut.DoorOpened();
             _uut.DoorClosed();
 
             //Assert
@@ -59,6 +60,7 @@ namespace Ladeskab.Test.Unit
 
             //Act
             _uut.DoorClosed();
+            _uut.DoorClosed();
 
             //Assert
             Assert.That(_uut.DoorState, Is.False);
@@ -85,10 +87,24 @@ namespace Ladeskab.Test.Unit
 
             //Act
             _uut.LockDoor();
-            _uut.DoorOpened();
+            _uut.UnlockDoor();
 
             //Assert
-            Assert.That(_uut.DoorState, Is.False);
+            Assert.That(_uut.DoorLocked, Is.False);
+        }
+
+        // Try and unlock a locked door
+        [Test]
+        public void DoorTest_UnlockUnlockedClosedDoor_DoorIsUnlocked()
+        {
+            //Arrange
+
+            //Act
+            _uut.UnlockDoor();
+            _uut.UnlockDoor();
+
+            //Assert
+            Assert.That(_uut.DoorLocked, Is.False);
         }
 
         #endregion
@@ -167,8 +183,9 @@ namespace Ladeskab.Test.Unit
             _uut.DoorOpened();
 
             //Assert
-            Assert.IsTrue(_uut.DoorLocked);
+            Assert.IsFalse(_uut.DoorState);
         }
+
 
         #endregion
 
