@@ -19,7 +19,7 @@ namespace LadeskabClasses
             DoorOpen
         };
 
-        public LadeskabState _state { get; private set; }
+        public LadeskabState _state { get; set; }
         private IChargeControl _charger;
         private IDoor _door;
         private IRfidReader _rfidReader;

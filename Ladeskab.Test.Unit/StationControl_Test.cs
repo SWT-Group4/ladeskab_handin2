@@ -36,10 +36,12 @@ namespace Ladeskab.Test.Unit
         }
 
         #region DoorEventHandler()
+        // Tests for when the event is that the door is opened
         [Test]
-        public void DoorEventHandler_DoorOpenedLadeskabAvailable_stateChangesToDoorOpened()
+        public void DoorEventHandler_DoorOpenedStateAvailable_stateChangesToDoorOpened()
         {
             // Arrange
+            _uut._state = StationControl.LadeskabState.Available;
 
             // Act - Raise event in fake
             _fakeDoor.DoorEvent +=
@@ -51,9 +53,10 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void DoorEventHandler_DoorOpenedLadeskabAvailable_displayCalled()
+        public void DoorEventHandler_DoorOpenedStateAvailable_displayCalledOnce()
         {
             // Arrange
+            _uut._state = StationControl.LadeskabState.Available;
 
             // Act - Raise event in fake
             _fakeDoor.DoorEvent +=
@@ -61,8 +64,105 @@ namespace Ladeskab.Test.Unit
 
             // Assert
             _fakeDisplay.Received(1).ConnectPhone();
+            _fakeDisplay.Received(0).ReadRfid();
 
         }
+
+        [Test]
+        public void DoorEventHandler_DoorOpenedStateDoorOpen_NothingHappens()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.DoorOpen;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = true });
+
+            // Assert
+            _fakeDisplay.Received(0).ConnectPhone();
+            _fakeDisplay.Received(0).ReadRfid();
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.DoorOpen));
+        }
+
+        [Test]
+        public void DoorEventHandler_DoorOpenedStateLocked_NothingHappens()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.Locked;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = true });
+
+            // Assert
+            _fakeDisplay.Received(0).ConnectPhone();
+            _fakeDisplay.Received(0).ReadRfid();
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
+        }
+
+
+        // Tests for when the event is that the door is closed
+        [Test]
+        public void DoorEventHandler_DoorClosedStateAvailable_NothingHappens()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.Available;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+            Raise.EventWith(new DoorEventArgs() { DoorState = false });
+
+            // Assert
+            _fakeDisplay.Received(0).ConnectPhone();
+            _fakeDisplay.Received(0).ReadRfid();
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
+        }
+
+        [Test]
+        public void DoorEventHandler_DoorClosedStateDoorOpen_stateChangesToAvailable()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.DoorOpen;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = false });
+
+            // Assert
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
+        }
+
+        [Test]
+        public void DoorEventHandler_DoorClosedStateDoorOpen_DisplayCalledOnce()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.DoorOpen;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = false });
+
+            // Assert
+            _fakeDisplay.Received(0).ConnectPhone();
+            _fakeDisplay.Received(1).ReadRfid();
+        }
+
+        [Test]
+        public void DoorEventHandler_DoorClosedStateLocked_NothingHappens()
+        {
+            // Arrange
+            _uut._state = StationControl.LadeskabState.Locked;
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = false });
+
+            // Assert
+            _fakeDisplay.Received(0).ConnectPhone();
+            _fakeDisplay.Received(0).ReadRfid();
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
+        }
+
         #endregion
 
     }
