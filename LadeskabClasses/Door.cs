@@ -7,7 +7,7 @@ namespace LadeskabClasses
     {
         public event EventHandler<DoorEventArgs> DoorEvent;
 
-        private DoorEventArgs _state = new DoorEventArgs
+        private DoorEventArgs State = new DoorEventArgs
         {
             DoorState = false
         };
@@ -30,10 +30,10 @@ namespace LadeskabClasses
             // If the door is already closed return
             if (!DoorState) return;
             // Sets state
-            _state.DoorState = false;
+            State.DoorState = false;
             DoorState = false;
             // Invokes event
-            DoorEvent?.Invoke(this, _state);
+            DoorEvent?.Invoke(this, State);
         }
 
         // Activates when the User opens the door
@@ -42,10 +42,10 @@ namespace LadeskabClasses
             //If the Door is already open or locked return
             if (DoorState || DoorLocked) return;
             // Sets state
-            _state.DoorState = true;
+            State.DoorState = true;
             DoorState = true;
             // Invoke Event
-            DoorEvent?.Invoke(this, _state);
+            DoorEvent?.Invoke(this, State);
         }
 
         // Locks the door
