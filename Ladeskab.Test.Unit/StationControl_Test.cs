@@ -24,7 +24,7 @@ namespace Ladeskab.Test.Unit
         private IChargeControl _fakeChargeControl;
         private IDisplay _fakeDisplay;
 
-            [SetUp]
+        [SetUp]
         public void Setup()
         {
             // Common Arrange:
@@ -33,28 +33,37 @@ namespace Ladeskab.Test.Unit
             _fakeChargeControl = Substitute.For<IChargeControl>();
             _fakeDisplay = Substitute.For<IDisplay>();
             _uut = new StationControl(_fakeChargeControl, _fakeDoor, _fakeRfidReader, _fakeDisplay);
-
         }
 
+        #region DoorEventHandler()
         [Test]
-        public void EventHandling_DoorOpenedLadeskabAvailable_stateChanges()
-        {
-            // Raise event in fake
-            _fakeDoor.DoorEvent +=
-            Raise.EventWith(new DoorEventArgs() { DoorState = true});
-
-        }
-
-        [Test]
-        public void ThisWillReturnTrue_NoAction_IsTrue()
+        public void DoorEventHandler_DoorOpenedLadeskabAvailable_stateChangesToDoorOpened()
         {
             // Arrange
 
-            // Act
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+            Raise.EventWith(new DoorEventArgs() { DoorState = true});
 
             // Assert
-            //Assert.IsTrue(_uut.ThisWillReturnTrue());
-            Assert.IsTrue(true);
+            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.DoorOpen));
+
         }
+
+        [Test]
+        public void DoorEventHandler_DoorOpenedLadeskabAvailable_displayCalled()
+        {
+            // Arrange
+
+            // Act - Raise event in fake
+            _fakeDoor.DoorEvent +=
+                Raise.EventWith(new DoorEventArgs() { DoorState = true });
+
+            // Assert
+            _fakeDisplay.Received(1).ConnectPhone();
+
+        }
+        #endregion
+
     }
 }
