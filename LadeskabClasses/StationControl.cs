@@ -12,14 +12,14 @@ namespace LadeskabClasses
     public class StationControl
     {
         // Enum med tilstande ("states") svarende til tilstandsdiagrammet for klassen
-        private enum LadeskabState
+        public enum LadeskabState
         {
             Available,
             Locked,
             DoorOpen
         };
 
-        private LadeskabState _state;
+        public LadeskabState _state { get; private set; }
         private IChargeControl _charger;
         private IDoor _door;
         private IRfidReader _rfidReader;
