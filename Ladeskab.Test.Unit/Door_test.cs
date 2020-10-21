@@ -29,6 +29,7 @@ namespace Ladeskab.Test.Unit
             //Arrange
 
             //Act
+            _uut.DoorOpened();
             _uut.DoorClosed();
 
             //Assert
@@ -58,6 +59,7 @@ namespace Ladeskab.Test.Unit
             //Arrange
 
             //Act
+            _uut.DoorClosed();
             _uut.DoorClosed();
 
             //Assert
