@@ -85,9 +85,10 @@ namespace Ladeskab.Test.Unit
 
             //Act
             _uut.LockDoor();
+            _uut.UnlockDoor();
 
             //Assert
-            Assert.That(_uut.DoorState, Is.False);
+            Assert.That(_uut.DoorLocked, Is.False);
         }
 
         #endregion
