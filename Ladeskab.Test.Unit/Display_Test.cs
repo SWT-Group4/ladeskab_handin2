@@ -61,7 +61,7 @@ namespace Ladeskab.Test.Unit
             // Act
             uut.IsCharging();
             // Assert
-            output.Received().PrintToDisplay(Arg.Is<string>(str => str.Contains("Device Is now Charging")));
+            output.Received().PrintToDisplay(Arg.Is<string>(str => str.Contains("\nDevice is now Charging!")));
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace Ladeskab.Test.Unit
             // Act
             uut.OverCurrentFail();
             // Assert
-            output.Received().PrintToDisplay(Arg.Is<string>(str => str.Contains("FAILURE: Over Current")));
+            output.Received().PrintToDisplay(Arg.Is<string>(str => str.Contains("\nFAILURE: Current exceeded max limit! Charging has stopped!")));
         }
 
         [Test]

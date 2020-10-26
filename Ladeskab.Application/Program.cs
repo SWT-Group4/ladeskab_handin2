@@ -19,7 +19,6 @@ namespace Ladeskab.Application
             LogOutput _logOutput = new LogOutput();
             LogfileWriter _logfile = new LogfileWriter(_logOutput);
             StationControl _stationControl = new StationControl(_chargeControl, _door, _rfid, _display, _logfile);
-            const int FullyCharged = 1;
             bool finish = false;
 
             System.Console.WriteLine("Indtast:\n" +
@@ -32,7 +31,7 @@ namespace Ladeskab.Application
             {
                 string input = null;
 
-
+                // Gate the blocking ReadLine function
                 if (Console.KeyAvailable)
                 {
                     input = Console.ReadLine();

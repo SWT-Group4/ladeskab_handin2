@@ -17,22 +17,22 @@ namespace LadeskabClasses
 
         public void NotCharging()
         {
-            myOutput.PrintToDisplay("Device is Not Charging");// Write better message
+            myOutput.PrintToDisplay("\nDevice is Not Charging!");
         }
 
         public void FullyCharged()
         {
-            myOutput.PrintToDisplay("Device is Fully Charged"); // Write better message
+            myOutput.PrintToDisplay("\nDevice is Fully Charged!");
         }
 
         public void IsCharging()
         {
-            myOutput.PrintToDisplay("Device Is now Charging"); // Write better message
+            myOutput.PrintToDisplay("\nDevice is now Charging!");
         }
 
         public void OverCurrentFail()
         {
-            myOutput.PrintToDisplay("FAILURE: Over Current"); // Write better message
+            myOutput.PrintToDisplay("\nFAILURE: Current exceeded max limit! Charging has stopped!");
         }
 
         public void StateChangedToLocked()

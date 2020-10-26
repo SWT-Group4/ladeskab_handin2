@@ -170,7 +170,7 @@ namespace Ladeskab.Test.Unit
         [TestCase(25.0, 0, 0, 1, 0)]
         [TestCase(525.0, 0, 0, 0, 1)]
     
-        public void UpdateDisplay_FullyCharged_CalledOnce
+        public void UpdateDisplay_ChangeState_CalledOnceExceptIdle
             (double testCurrent, int a, int b, int c, int d)
         {
             // Arrange
@@ -179,7 +179,7 @@ namespace Ladeskab.Test.Unit
             _mockUsbCharger.ChargingCurrentEvent +=
                 Raise.EventWith(new CurrentEventArgs() { Current = testCurrent });
 
-            // Assert
+            // Assert (NotCharging = not called since state is already idle)
             _stubDisplay.Received(a).NotCharging();
             _stubDisplay.Received(b).FullyCharged();
             _stubDisplay.Received(c).IsCharging();
@@ -191,7 +191,7 @@ namespace Ladeskab.Test.Unit
         [TestCase(5, 2.5, 0, 5, 0, 0)]
         [TestCase(10, 25.0, 0, 0, 10, 0)]
         [TestCase(3, 525.0, 0, 0, 0, 3)]
-        public void UpdateDisplay_MultiEvents_CalledCorrectNumberOfTimes
+        public void UpdateDisplay_ConsecutiveEvents_CalledOnceExceptIdle
             (int events,  double testCurrent, int a, int b, int c, int d)
         {
             // Arrange
@@ -211,7 +211,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void UpdateDisplay_ChargerIsDone_ChargerStateIdle()
+        public void UpdateDisplay_ChargerGoesFromChargingToIdle_ChargerStateIdle()
         {
             // Arrange
 
