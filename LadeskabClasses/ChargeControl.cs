@@ -130,10 +130,11 @@ namespace LadeskabClasses
                     _display.NotCharging();
                     _lastState = ChargerState.Idle;
                     break;
-                
+                //DotCoverIgnore
                 default:
                     // Not Possible
                     break;
+                //EndDotCoverIgnore
             }
             
         }

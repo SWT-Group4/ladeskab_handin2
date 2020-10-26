@@ -210,6 +210,24 @@ namespace Ladeskab.Test.Unit
             _stubDisplay.Received(d / events).OverCurrentFail();
         }
 
+        [Test]
+        public void UpdateDisplay_ChargerIsDone_ChargerStateIdle()
+        {
+            // Arrange
+
+            // Act
+            _mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 300.000 });
+            
+            _mockUsbCharger.ChargingCurrentEvent +=
+                Raise.EventWith(new CurrentEventArgs() { Current = 0.000 });
+
+
+            // Assert
+            Assert.That(_uut.ReadChargerState, Is.EqualTo((int)0));
+        }
+
+
         #endregion
     }
 }
