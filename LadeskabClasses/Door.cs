@@ -28,7 +28,7 @@ namespace LadeskabClasses
         public void DoorClosed()
         {
             // If the door is already closed return
-            //if (!DoorState) return;
+            if (!DoorState || DoorLocked) return;
             // Sets state
             State.DoorState = false;
             DoorState = false;
