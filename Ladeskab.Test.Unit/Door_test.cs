@@ -33,19 +33,20 @@ namespace Ladeskab.Test.Unit
             Assert.IsFalse(_uut.DoorState);
         }
 
-        /*[Test]
-        public void DoorTest_CloseDoor_EventThrown()
+        [Test]
+        public void DoorTest_CloseDoor_EventNotified()
         {
-            //Arrange
-            bool notified = true;
+            //Arrange. First open the door so we can close it later
+            bool notified = false;
+            _uut.DoorOpened();
 
             //Act
-            _uut.DoorEvent += (sender, args) => notified = false;
+            _uut.DoorEvent += (sender, args) => notified = true;
             _uut.DoorClosed();
 
             //Assert
-            Assert.That(notified, Is.EqualTo(false));
-        }*/
+            Assert.IsTrue(notified);
+        }
 
 
 
@@ -124,7 +125,7 @@ namespace Ladeskab.Test.Unit
             Assert.IsTrue(_uut.DoorState);
         }
 
-        /*[Test]
+        [Test]
         public void DoorTest_OpenDoor_EventThrown()
         {
             //Arrange
@@ -136,7 +137,7 @@ namespace Ladeskab.Test.Unit
 
             //Assert
             Assert.That(notified, Is.EqualTo(true));
-        }*/
+        }
 
         // Try and open the door when it's already open
         [Test]
