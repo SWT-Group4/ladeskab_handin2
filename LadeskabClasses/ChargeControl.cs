@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Threading;
 using LadeskabClasses.Interfaces;
 
 
@@ -106,7 +108,15 @@ namespace LadeskabClasses
         {
             if (_lastState == _chargerState)
             {
-                // If state is the same, then don't update display
+                // If state is the same, then don't update display, 
+                // but update progressbar if charging device
+
+                // Progressbar
+                if (_chargerState == ChargerState.IsCharging)
+                {
+                    var progress = (((500 - (int) ReadChargingCurrent) * 100) / 495);
+                    Console.Write("\rProgress: {0} %", progress);
+                }
                 return;
             }
             switch (_chargerState)

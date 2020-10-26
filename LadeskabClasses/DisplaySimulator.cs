@@ -9,22 +9,22 @@ namespace LadeskabClasses
     {
         public void NotCharging()
         {
-            Console.WriteLine("NotCharging."); // Write better message
+            Console.WriteLine("Device is Not Charging"); // Write better message
         }
 
         public void FullyCharged()
         {
-            Console.WriteLine("FullyCharged."); // Write better message
+            Console.WriteLine("Device is Fully Charged"); // Write better message
         }
 
         public void IsCharging()
         {
-            Console.WriteLine("IsCharging."); // Write better message
+            Console.WriteLine("Device Is now Charging"); // Write better message
         }
 
         public void OverCurrentFail()
         {
-            Console.WriteLine("OverCurrentFail."); // Write better message
+            Console.WriteLine("FAILURE: Over Current"); // Write better message
         }
 
         public void StateChangedToLocked()
