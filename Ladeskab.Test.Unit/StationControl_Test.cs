@@ -71,47 +71,55 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void DoorEventHandler_DoorOpenedStateDoorOpen_NothingHappens()
+        public void DoorEventHandler_DoorOpenedStateDoorOpen_Throws()
         {
             // Arrange
             _uut._state = StationControl.LadeskabState.DoorOpen;
-
-            // Act - Raise event in fake
-            _fakeDoor.DoorEvent +=
-                Raise.EventWith(new DoorEventArgs() { DoorState = true });
-
+            void throwingFunc()
+            {
+                // Act - Raise event in fake
+                _fakeDoor.DoorEvent +=
+                    Raise.EventWith(new DoorEventArgs() { DoorState = true });
+            }
             // Assert
-            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.DoorOpen));
+            Assert.Throws(typeof(System.Exception), throwingFunc);
         }
 
         [Test]
-        public void DoorEventHandler_DoorOpenedStateLocked_NothingHappens()
+        public void DoorEventHandler_DoorOpenedStateLocked_Throws()
         {
             // Arrange
             _uut._state = StationControl.LadeskabState.Locked;
 
-            // Act - Raise event in fake
-            _fakeDoor.DoorEvent +=
-                Raise.EventWith(new DoorEventArgs() { DoorState = true });
+            // Hack to be able to assert an exception that happens as a sideeffect
+            void throwingFunc()
+            {
+                // Act - Raise event in fake
+                _fakeDoor.DoorEvent +=
+                    Raise.EventWith(new DoorEventArgs() { DoorState = true });
+            }
 
             // Assert
-            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
+            Assert.Throws(typeof(System.Exception), throwingFunc);
         }
 
 
         // Tests for when the door event is that the door is closed
         [Test]
-        public void DoorEventHandler_DoorClosedStateAvailable_NothingHappens()
+        public void DoorEventHandler_DoorClosedStateAvailable_Throws()
         {
             // Arrange
             _uut._state = StationControl.LadeskabState.Available;
 
-            // Act - Raise event in fake
-            _fakeDoor.DoorEvent +=
-            Raise.EventWith(new DoorEventArgs() { DoorState = false });
+            void throwingFunc()
+            {
+                // Act - Raise event in fake
+                _fakeDoor.DoorEvent +=
+                    Raise.EventWith(new DoorEventArgs() { DoorState = false });
+            }
 
             // Assert
-            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
+            Assert.Throws(typeof(System.Exception), throwingFunc);
         }
 
         [Test]
@@ -144,17 +152,19 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void DoorEventHandler_DoorClosedStateLocked_NothingHappens()
+        public void DoorEventHandler_DoorClosedStateLocked_Throws()
         {
             // Arrange
             _uut._state = StationControl.LadeskabState.Locked;
 
-            // Act - Raise event in fake
-            _fakeDoor.DoorEvent +=
-                Raise.EventWith(new DoorEventArgs() { DoorState = false });
-
+            void throwingFunc()
+            {
+                // Act - Raise event in fake
+                _fakeDoor.DoorEvent +=
+                    Raise.EventWith(new DoorEventArgs() { DoorState = false });
+            }
             // Assert
-            Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
+            Assert.Throws(typeof(System.Exception), throwingFunc);
         }
 
         #endregion
@@ -253,18 +263,20 @@ namespace Ladeskab.Test.Unit
 
         // Tests for when rfid event is received and state=DoorOpen
         [Test]
-        public void RfidDetected_StateDoorOpen_NothingHappens()
+        public void RfidDetected_StateDoorOpen_Throws()
         {
             // Arrange
             _uut._state = StationControl.LadeskabState.DoorOpen;
             _fakeChargeControl.IsConnected().Returns(false);
 
-            // Act - Raise event in fake
-            _fakeRfidReader.RfidEvent +=
-                Raise.EventWith(new RfidEventArgs() { Id = 1 });
-
+            void throwingFunc()
+            {
+                // Act - Raise event in fake
+                _fakeRfidReader.RfidEvent +=
+                    Raise.EventWith(new RfidEventArgs() { Id = 1 });
+            }
             // Assert
-            // Nothing happens
+            Assert.Throws(typeof(System.Exception), throwingFunc);
         }
 
         //Tests that simulate an entire open/close cycle
@@ -283,7 +295,6 @@ namespace Ladeskab.Test.Unit
                 Raise.EventWith(new RfidEventArgs() { Id = id2 });
 
             // Assert
-            //_fakeDisplay.Received(1).StateChangedToLocked();
             _fakeDisplay.Received(res).StateChangedToUnlocked();
         }
 
