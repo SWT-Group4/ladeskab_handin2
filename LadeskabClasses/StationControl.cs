@@ -67,8 +67,7 @@ namespace LadeskabClasses
                     break;
 
                 case LadeskabState.DoorOpen:
-                    // Ignore
-                    break;
+                    throw new System.Exception("ERROR! RFID cannot be received when state is DoorOpen");
 
                 case LadeskabState.Locked:
                     // Check for correct ID
@@ -100,6 +99,10 @@ namespace LadeskabClasses
                         _state = LadeskabState.DoorOpen;
                         _display.ConnectPhone();
                     }
+                    else
+                    {
+                        throw new System.Exception("ERROR! Door cannot close when state is Available");
+                    }
                     break;
 
                 case LadeskabState.DoorOpen:
@@ -109,11 +112,14 @@ namespace LadeskabClasses
                         _state = LadeskabState.Available;
                         _display.ReadRfid();
                     }
+                    else
+                    {
+                        throw new System.Exception("ERROR! Door cannot open when state is DoorOpen");
+                    }
                     break;
 
                 case LadeskabState.Locked:
-                    // Breakin! Should not be possible
-                    break;
+                    throw new System.Exception("ERROR! Door cannot open when state is Locked!");
             }
         }
     }
