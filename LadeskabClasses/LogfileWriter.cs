@@ -18,7 +18,7 @@ namespace LadeskabClasses
 
         public void LogDoorUnlocked(int ID)
         {
-            myOutput.LoggingToFile(DateTime.Now + ": Skab låst med RFID: " + ID);
+            myOutput.LoggingToFile(DateTime.Now + ": Skab låst op med RFID: " + ID);
         }
 
         public void LogDoorLocked(int ID)

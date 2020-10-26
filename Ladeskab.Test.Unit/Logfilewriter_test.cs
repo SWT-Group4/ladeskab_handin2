@@ -9,19 +9,30 @@ namespace Ladeskab.Test.Unit
     [TestFixture]
     public class Logfilewriter_test
     {
-        private ILogfileWriter _uut;
+        private LogfileWriter uut;
+        private ILogOutput output;
 
-        [SetUp]
+            [SetUp]
         public void Setup()
         {
-            _uut = Substitute.For<ILogfileWriter>();
+            output = Substitute.For<ILogOutput>();
+            uut = new LogfileWriter(output);
+
         }
 
 
         [TestCase(1)]
         public void LoggingWhen_DoorUnlocked(int x)
         {
+            uut.LogDoorUnlocked(x);
+            output.Received().LoggingToFile(Arg.Is<string>(str => str.Contains("Skab låst op med RFID: " + x)));
+        }
 
+        [TestCase(1)]
+        public void LoggingWhen_DoorLocked(int x)
+        {
+            uut.LogDoorLocked(x);
+            output.Received().LoggingToFile(Arg.Is<string>(str => str.Contains("Skab låst med RFID: " + x)));
         }
 
     }
