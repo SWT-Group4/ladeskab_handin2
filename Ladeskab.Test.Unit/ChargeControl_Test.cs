@@ -205,10 +205,10 @@ namespace Ladeskab.Test.Unit
             }
 
             // Assert
-            _stubDisplay.Received(a).NotCharging();
-            _stubDisplay.Received(b).FullyCharged();
-            _stubDisplay.Received(c).IsCharging();
-            _stubDisplay.Received(d).OverCurrentFail();
+            _stubDisplay.Received(a/events).NotCharging();
+            _stubDisplay.Received(b / events).FullyCharged();
+            _stubDisplay.Received(c / events).IsCharging();
+            _stubDisplay.Received(d / events).OverCurrentFail();
         }
 
         #endregion

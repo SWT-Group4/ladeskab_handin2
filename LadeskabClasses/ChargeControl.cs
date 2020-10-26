@@ -15,9 +15,11 @@ namespace LadeskabClasses
             Idle,
             TrickleChargeFullyCharged,
             IsCharging,
-            OverCurrentFail
+            OverCurrentFail,
+            None
         };
         private ChargerState _chargerState = ChargerState.Idle;
+        private ChargerState _lastState = ChargerState.None;
         public int ReadChargerState = -1;
 
         // Constants
@@ -103,23 +105,39 @@ namespace LadeskabClasses
         }
         private void UpdateDisplay()
         {
-
+            if (_lastState == _chargerState)
+            {
+                // If state is the same, then don't update display
+                return;
+            }
             switch (_chargerState)
             {
                 case ChargerState.OverCurrentFail:
                     _display.OverCurrentFail();
+                    _lastState = ChargerState.OverCurrentFail;
                     break;
 
                 case ChargerState.TrickleChargeFullyCharged:
                     _display.FullyCharged();
+                    _lastState = ChargerState.TrickleChargeFullyCharged;
                     break;
 
                 case ChargerState.IsCharging:
                     _display.IsCharging();
+                    _lastState = ChargerState.IsCharging;
+                    break;
+
+                case ChargerState.Idle:
+                    _display.NotCharging();
+                    _lastState = ChargerState.Idle;
+                    break;
+
+                case ChargerState.None:
+                    // Not possible
                     break;
 
                 default:
-                    _display.NotCharging();
+                    // Not Possible
                     break;
             }
             
