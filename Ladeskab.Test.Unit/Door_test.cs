@@ -126,7 +126,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void DoorTest_OpenDoor_EventThrown()
+        public void DoorTest_OpenDoor_EventNotified()
         {
             //Arrange
             bool notified = false;
@@ -136,7 +136,7 @@ namespace Ladeskab.Test.Unit
             _uut.DoorOpened();
 
             //Assert
-            Assert.That(notified, Is.EqualTo(true));
+            Assert.IsTrue(notified);
         }
 
         // Try and open the door when it's already open
