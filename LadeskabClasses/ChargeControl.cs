@@ -15,11 +15,10 @@ namespace LadeskabClasses
             Idle,
             TrickleChargeFullyCharged,
             IsCharging,
-            OverCurrentFail,
-            None
+            OverCurrentFail
         };
         private ChargerState _chargerState = ChargerState.Idle;
-        private ChargerState _lastState = ChargerState.None;
+        private ChargerState _lastState = ChargerState.Idle;
         public int ReadChargerState = -1;
 
         // Constants
@@ -131,11 +130,7 @@ namespace LadeskabClasses
                     _display.NotCharging();
                     _lastState = ChargerState.Idle;
                     break;
-
-                case ChargerState.None:
-                    // Not possible
-                    break;
-
+                
                 default:
                     // Not Possible
                     break;

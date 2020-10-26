@@ -10,7 +10,6 @@
 using LadeskabClasses;
 using LadeskabClasses.Interfaces;
 using NSubstitute;
-using NSubstitute.ReceivedExtensions;
 using NUnit.Framework;
 
 namespace Ladeskab.Test.Unit
@@ -166,7 +165,7 @@ namespace Ladeskab.Test.Unit
 
         #region UpdateDisplay()
 
-        [TestCase(0.0, 1, 0, 0, 0)]
+        [TestCase(0.0, 0, 0, 0, 0)]
         [TestCase(2.5, 0, 1, 0, 0)]
         [TestCase(25.0, 0, 0, 1, 0)]
         [TestCase(525.0, 0, 0, 0, 1)]
@@ -205,7 +204,7 @@ namespace Ladeskab.Test.Unit
             }
 
             // Assert
-            _stubDisplay.Received(a/events).NotCharging();
+            _stubDisplay.Received(0).NotCharging();
             _stubDisplay.Received(b / events).FullyCharged();
             _stubDisplay.Received(c / events).IsCharging();
             _stubDisplay.Received(d / events).OverCurrentFail();
