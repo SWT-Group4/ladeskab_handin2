@@ -15,7 +15,8 @@ namespace Ladeskab.Application
             UsbChargerSimulator _usbCharger = new UsbChargerSimulator();
             DisplaySimulator _display = new DisplaySimulator();
             ChargeControl _chargeControl = new ChargeControl(_display, _usbCharger);
-            LogfileWriter _logfile = new LogfileWriter();
+            LogOutput _logOutput = new LogOutput();
+            LogfileWriter _logfile = new LogfileWriter(_logOutput);
             StationControl _stationControl = new StationControl(_chargeControl, _door, _rfid, _display, _logfile);
             const int FullyCharged = 1;
             bool finish = false;
