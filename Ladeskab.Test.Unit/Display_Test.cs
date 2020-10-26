@@ -31,10 +31,8 @@ namespace Ladeskab.Test.Unit
 
         }
 
-
-
         [Test]
-        public void NotCharging_Printsmessage()
+        public void NotCharging_PrintsMessage()
         {
             // Arrange
 
@@ -45,7 +43,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void FullyCharged_Printsmessage()
+        public void FullyCharged_PrintsMessage()
         {
             // Arrange
 
@@ -56,7 +54,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void IsCharging_Printsmessage()
+        public void IsCharging_PrintsMessage()
         {
             // Arrange
 
@@ -67,7 +65,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void OverCurrentFail_Printsmessage()
+        public void OverCurrentFail_PrintsMessage()
         {
             // Arrange
 
@@ -78,7 +76,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void StateChangedToLocked_Printsmessage()
+        public void StateChangedToLocked_PrintsMessage()
         {
             // Arrange
 
@@ -89,7 +87,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void ErrorInPhoneConnection_Printsmessage()
+        public void ErrorInPhoneConnection_PrintsMessage()
         {
             // Arrange
 
@@ -100,7 +98,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void StateChangedToUnlocked_Printsmessage()
+        public void StateChangedToUnlocked_PrintsMessage()
         {
             // Arrange
 
@@ -111,7 +109,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void RfidNoMatch_Printsmessage()
+        public void RfidNoMatch_PrintsMessage()
         {
             // Arrange
 
@@ -122,7 +120,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void ConnectPhone_Printsmessage()
+        public void ConnectPhone_PrintsMessage()
         {
             // Arrange
 
@@ -133,7 +131,7 @@ namespace Ladeskab.Test.Unit
         }
 
         [Test]
-        public void ReadRfid_Printsmessage()
+        public void ReadRfid_PrintsMessage()
         {
             // Arrange
 
