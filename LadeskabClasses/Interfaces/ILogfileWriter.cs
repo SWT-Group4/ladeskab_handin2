@@ -8,5 +8,6 @@ namespace LadeskabClasses.Interfaces
     {
         void LogDoorUnlocked(int ID);
         void LogDoorLocked(int ID);
+
     }
 }
