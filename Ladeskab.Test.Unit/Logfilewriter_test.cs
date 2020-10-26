@@ -21,7 +21,7 @@ namespace Ladeskab.Test.Unit
         [TestCase(1)]
         public void LoggingWhen_DoorUnlocked(int x)
         {
-            _uut.LogDoorLocked(x);
+
         }
 
     }

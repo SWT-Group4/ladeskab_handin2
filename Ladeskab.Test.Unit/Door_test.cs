@@ -1,7 +1,4 @@
-﻿using System.Runtime.InteropServices.ComTypes;
-using LadeskabClasses;
-using LadeskabClasses.Interfaces;
-using NSubstitute;
+﻿using LadeskabClasses;
 using NUnit.Framework;
 
 namespace Ladeskab.Test.Unit
