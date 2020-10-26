@@ -13,7 +13,8 @@ namespace Ladeskab.Application
             Door _door = new Door();
             RfidReaderSimulator _rfid = new RfidReaderSimulator();
             UsbChargerSimulator _usbCharger = new UsbChargerSimulator();
-            DisplaySimulator _display = new DisplaySimulator();
+            DisplayOutput _displayOutput = new DisplayOutput();
+            DisplaySimulator _display = new DisplaySimulator(_displayOutput);
             ChargeControl _chargeControl = new ChargeControl(_display, _usbCharger);
             LogOutput _logOutput = new LogOutput();
             LogfileWriter _logfile = new LogfileWriter(_logOutput);
