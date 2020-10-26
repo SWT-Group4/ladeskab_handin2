@@ -81,8 +81,6 @@ namespace Ladeskab.Test.Unit
                 Raise.EventWith(new DoorEventArgs() { DoorState = true });
 
             // Assert
-            _fakeDisplay.Received(0).ConnectPhone();
-            _fakeDisplay.Received(0).ReadRfid();
             Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.DoorOpen));
         }
 
@@ -97,8 +95,6 @@ namespace Ladeskab.Test.Unit
                 Raise.EventWith(new DoorEventArgs() { DoorState = true });
 
             // Assert
-            _fakeDisplay.Received(0).ConnectPhone();
-            _fakeDisplay.Received(0).ReadRfid();
             Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
         }
 
@@ -115,8 +111,6 @@ namespace Ladeskab.Test.Unit
             Raise.EventWith(new DoorEventArgs() { DoorState = false });
 
             // Assert
-            _fakeDisplay.Received(0).ConnectPhone();
-            _fakeDisplay.Received(0).ReadRfid();
             Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Available));
         }
 
@@ -160,8 +154,6 @@ namespace Ladeskab.Test.Unit
                 Raise.EventWith(new DoorEventArgs() { DoorState = false });
 
             // Assert
-            _fakeDisplay.Received(0).ConnectPhone();
-            _fakeDisplay.Received(0).ReadRfid();
             Assert.That(_uut._state, Is.EqualTo(StationControl.LadeskabState.Locked));
         }
 
